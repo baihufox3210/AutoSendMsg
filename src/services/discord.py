@@ -14,8 +14,8 @@ class DiscordService:
         if not self.token:
             print("Warning: Discord Token is not set")
 
-    async def send_message(self, channel_id: str, message: str):
-        url = f"https://discord.com/api/v10/channels/{channel_id}/messages"
+    async def send_message(self, channel: str, message: str):
+        url = f"https://discord.com/api/v10/channels/{channel}/messages"
         payload = {"content": message}
         
         async with aiohttp.ClientSession() as session:
