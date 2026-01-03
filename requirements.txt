@@ -2,3 +2,4 @@ asyncio
 requests
 aiohttp
 python-dotenv
+aiosqlite
