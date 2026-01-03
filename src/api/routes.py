@@ -11,7 +11,7 @@ class Routes:
             return web.json_response({"status": "200", "result": result})
 
         except Exception as e:
-            return web.json_response({"status": "500", "error": str(e)})
+            return web.json_response({"status": "500", "error": str(e)}, status=500)
 
     @staticmethod
     async def get_tasks(request):

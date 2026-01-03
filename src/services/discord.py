@@ -20,7 +20,7 @@ class DiscordService:
         
         async with aiohttp.ClientSession() as session:
             async with session.post(url, headers=self.headers, json=payload) as response:
-                if response.status == 200:
+                if response.ok:
                     return await response.json()
 
                 else:

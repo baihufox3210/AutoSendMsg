@@ -19,12 +19,16 @@ class TaskService:
             delay = max(0, data.get("time") - datetime.now().timestamp())
             await asyncio.sleep(delay)
             
-            await discord_service.send_message(
+            result = await discord_service.send_message(
                 data.get("channel"),
                 data.get("message")
             )
 
-            await db_manager.update_task_status(id, True)
+            if result and "error" not in result:
+                await db_manager.updateStatus(id)
+
+            else:
+                print(f"Failed to send task {id}: {result}")
 
         except Exception as e:
             print(f"Error in deferred send: {e}")
@@ -33,8 +37,9 @@ class TaskService:
     async def init_tasks():
         tasks = await db_manager.get_tasks()
 
-        for task in tasks: 
-            asyncio.create_task(TaskService._deferred_send(task["id"], task["task"]))
+        for task in tasks:
+            if task["status"] == 0:
+                asyncio.create_task(TaskService._deferred_send(task["id"], task["task"]))
     
     @staticmethod
     async def list_tasks():

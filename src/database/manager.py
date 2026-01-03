@@ -24,14 +24,14 @@ class DatabaseManager:
                 rows = await cursor.fetchall()
                 return [{"id": row[0], "task": json.loads(row[1]), "status": bool(row[2])} for row in rows]
 
-    async def update_task_status(self, task_id: int, status: bool):
+    async def updateStatus(self, id: int):
         async with aiosqlite.connect(self.db_path) as db:
-            await db.execute("UPDATE tasks SET status = ? WHERE id = ?", (1 if status else 0, task_id))
+            await db.execute("UPDATE tasks SET status = ? WHERE id = ?", (1, id))
             await db.commit()
 
-    async def delete_task(self, task_id: int):
+    async def delete_task(self, id: int):
         async with aiosqlite.connect(self.db_path) as db:
-            await db.execute("DELETE FROM tasks WHERE id = ?", (task_id,))
+            await db.execute("DELETE FROM tasks WHERE id = ?", (id,))
             await db.commit()
 
 db_manager = DatabaseManager()
