@@ -29,6 +29,11 @@ class DatabaseManager:
             await db.execute("UPDATE tasks SET status = ? WHERE id = ?", (1, id))
             await db.commit()
 
+    async def updateTask(self, id: int, task_data: dict):
+        async with aiosqlite.connect(self.db_path) as db:
+            await db.execute("UPDATE tasks SET task = ? WHERE id = ?", (json.dumps(task_data, ensure_ascii=False), id))
+            await db.commit()
+
     async def delete_task(self, id: int):
         async with aiosqlite.connect(self.db_path) as db:
             await db.execute("DELETE FROM tasks WHERE id = ?", (id,))
