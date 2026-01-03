@@ -10,14 +10,20 @@ async def add_task(target):
     asyncio.create_task(task(target.json()))
     return web.json_response({"status": "ok"})
 
+async def get_task():
+    return web.json_response({"status": "ok"})
+
 async def main():
     app = web.Application()
-    app.add_routes([web.post("/add_task", add_task)])
+    app.add_routes([
+        web.post("/add_task", add_task),
+        web.get("/get_task", get_task)
+    ])
 
     runner = web.AppRunner(app)
     await runner.setup()
 
-    site = web.TCPSite(runner, "0.0.0.0", 8080)
+    site = web.TCPSite(runner, "0.0.0.0", 8000)
     await site.start()
 
     await asyncio.Event().wait()
