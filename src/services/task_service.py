@@ -42,7 +42,7 @@ class TaskService:
                     data["time"] = getWeeklyTime(data["time"], schedule["frequency"])
                 
                 elif schedule["type"] == "monthly":
-                    data["time"] = getMonthlyTime(data["time"], schedule["frequency"])
+                    data["time"] = getMonthlyTime(data["time"], schedule["day"], schedule["frequency"])
 
                 await db_manager.updateTask(id, data)
                 asyncio.create_task(TaskService._deferred_send(id, data))

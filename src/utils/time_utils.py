@@ -17,7 +17,7 @@ def getWeeklyTime(dt: float, frequency: int):
 
     return dt.timestamp()
 
-def getMonthlyTime(dt: float, frequency: int):
+def getMonthlyTime(dt: float, day: int, frequency: int):
     dt = datetime.fromtimestamp(dt)
 
     year = dt.year + (dt.month + frequency - 1) // 12
@@ -26,7 +26,7 @@ def getMonthlyTime(dt: float, frequency: int):
     return datetime(
         year,
         month,
-        min(dt.day, calendar.monthrange(year, month)[1]),
+        min(day, calendar.monthrange(year, month)[1]),
         dt.hour,
         dt.minute,
         dt.second
