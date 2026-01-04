@@ -11,7 +11,7 @@ class Routes:
             return web.json_response({"status": "200", "result": result})
 
         except Exception as e:
-            return web.json_response({"status": "500", "error": str(e)}, status=500)
+            return web.json_response({"status": "error", "message": str(e)}, status=500)
 
     @staticmethod
     async def get_tasks(request):
@@ -20,20 +20,20 @@ class Routes:
             return web.json_response({"status": "200", "data": tasks})
 
         except Exception as e:
-            return web.json_response({"status": "500", "error": str(e)})
+            return web.json_response({"status": "error", "message": str(e)}, status=500)
 
     @staticmethod
     async def delete_task(request):
         try:
             task_id = request.query.get("id")
             if not task_id:
-                return web.json_response({"status": "400", "error": "Missing id parameter"})
+                return web.json_response({"status": "400", "error": "Missing id parameter"}, status=400)
 
             result = await TaskService.remove_task(int(task_id))
             return web.json_response({"status": "200", "result": result})
 
         except Exception as e:
-            return web.json_response({"status": "500", "error": str(e)})
+            return web.json_response({"status": "error", "message": str(e)}, status=500)
 
 def setup_routes(app):
     app.add_routes([

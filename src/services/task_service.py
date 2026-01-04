@@ -45,6 +45,7 @@ class TaskService:
                     data["time"] = getMonthlyTime(data["time"], schedule["frequency"])
 
                 await db_manager.updateTask(id, data)
+                asyncio.create_task(TaskService._deferred_send(id, data))
 
         except Exception as e:
             print(f"Error in deferred send: {e}")
